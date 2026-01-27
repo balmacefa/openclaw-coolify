@@ -33,6 +33,40 @@ cat >"$CONFIG_FILE" <<EOF
   "update": {
     "channel": "stable"
   },
+  "channels": {
+    "whatsapp": {
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist",
+      "mediaMaxMb": 50,
+      "debounceMs": 0
+    },
+    "telegram": {
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist",
+      "streamMode": "partial"
+    },
+    "discord": {
+      "groupPolicy": "allowlist"
+    },
+    "googlechat": {
+      "groupPolicy": "allowlist"
+    },
+    "slack": {
+      "mode": "socket",
+      "webhookPath": "/slack/events",
+      "userTokenReadOnly": true,
+      "groupPolicy": "allowlist"
+    },
+    "signal": {
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist"
+    },
+    "imessage": {
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist"
+    },
+    "mattermost": {}
+  },
   "agents": {
     "defaults": {
       "workspace": "/home/node/clawd",
