@@ -118,10 +118,20 @@ ENV MOLT_BOT_BETA=${MOLT_BOT_BETA} \
 RUN curl -fsSL https://molt.bot/install.sh | bash && \
     ln -s /home/node/.npm-global/bin/clawdbot /home/node/.npm-global/bin/moltbot || true
 
+# Install AI Tool Suite (Claude, Kimi, OpenCode, Gemini, Codex)
+RUN npm install -g @google/gemini-cli @openai/codex opencode-ai && \
+    # Official installers for Claude and Kimi
+    curl -fsSL https://claude.ai/install.sh | sh -s -- -y && \
+    curl -LsSf https://code.kimi.com/install.sh | sh -s -- -y || true && \
+    # Symlink to npm-global/bin to ensure they are in PATH and reachable
+    (ln -s /home/node/.claude/bin/claude /home/node/.npm-global/bin/claude || true) && \
+    (ln -s /home/node/.kimi/bin/kimi /home/node/.npm-global/bin/kimi || true)
+
 # Copy local scripts (as node user since we already switched)
 COPY --chown=node:node scripts/bootstrap.sh /app/scripts/bootstrap.sh
 COPY --chown=node:node scripts/molt-approve.sh /home/node/.npm-global/bin/molt-approve
-RUN chmod +x /app/scripts/bootstrap.sh /home/node/.npm-global/bin/molt-approve
+RUN chmod +x /app/scripts/bootstrap.sh /home/node/.npm-global/bin/molt-approve && \
+    chmod -R +x /home/node/.npm-global/bin/
 
 # Expose the application port
 EXPOSE 18789

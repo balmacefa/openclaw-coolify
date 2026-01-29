@@ -23,6 +23,23 @@ fi
 mkdir -p "$MOLT_STATE/credentials"
 chmod 700 "$MOLT_STATE/credentials"
 
+# Universal Permission Hardening (Runtime Fail-safe)
+# Ensures all global binaries are always executable
+echo "🛡️ HARDENING CLI PERMISSIONS..."
+if [ -d "/home/node/.npm-global/bin" ]; then
+  chmod -R +x /home/node/.npm-global/bin/ || true
+fi
+
+# Tool Audit
+echo "🔍 AUDITING AI TOOL SUITE..."
+for tool in moltbot claude kimi opencode gemini codex; do
+  if command -v "$tool" >/dev/null 2>&1; then
+    echo "✅ $tool: $(command -v "$tool")"
+  else
+    echo "⚠️ $tool: NOT FOUND"
+  fi
+done
+
 # Ensure aliases work for interactive sessions
 echo "alias fd=fdfind" >> /home/node/.bashrc
 echo "alias bat=batcat" >> /home/node/.bashrc
