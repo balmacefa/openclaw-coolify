@@ -85,37 +85,20 @@ Enable public URLs, deployments, or chat channels.
 
 ---
 
-## 📦 Lifecycle & Installation
-
-### 1. Pre-request (Build)
-When you click **Deploy**, Coolify builds your custom Docker image.
-- **Base**: `ubuntu:24.04`
-- **Installs**: `curl`, `git`, `python3` (with `uv`), `golang-go`.
-- **Power Tools**: `ripgrep` (rg), `fd`, `fzf`, `bat`, `jq`.
-- **Runtimes**: `bun`, `yarn`, `npm`.
-- **Moltbot**: Downloads and installs the latest binary via `install.sh`.
-
-### 2. Pre-install (Bootstrap)
-The container starts with `bootstrap.sh`.
-- **Config**: Generates `~/.moltbot/moltbot.json` if missing.
-- **Migration**: Renames old `clawdbot.json` to `moltbot.json` if found.
-- **Sandboxing**: Configures Docker sandboxing (see `SOUL.md` for safety rules).
-
-### 3. Post-install (Ready)
-Once running, check the **Service Logs** in Coolify.
-- Look for: `🦞 MOLTBOT READY`
-- You will see a **Dashboard URL** with a token (e.g., `http://.../?token=xyz`).
-- **Click that link** to access your Moltbot Gateway UI.
-
-### 4. First-Time Setup (Onboarding)
+## 📦 Post-Deployment (Ready)
 Once the container is running and healthy:
 
-1.  **Access the Dashboard**: Open the **Dashboard URL** (with token) from the service logs.
+1.  **Access the Dashboard**: 
+    - Open the **Service Logs** in Coolify.
+    - Look for: `🦞 MOLTBOT READY`.
+    - You will see a **Dashboard URL** with a token (e.g., `http://.../?token=xyz`).
+    - **Click that link** to access your Moltbot Gateway UI.
 2.  **Approve Your Device**: 
     - You will see an "Unauthorized" or pairing screen (this is normal). 
     - Open the **Service Terminal** in Coolify.
-    - Run: `molt-approve` (This will automatically accept your browser's connection).
-    - Refresh your browser.
+    - Run: `molt-approve`
+    - > [!WARNING]
+    - > **Security Note**: `molt-approve` is a break-glass utility that auto-accepts ALL pending pairing requests. Only run this immediately after accessing the URL yourself. Do not leave it running or use it when you don't recognize a request.
 3.  **Guided Onboarding**: To configure your agent's personality and skills:
     - In the terminal, run: `moltbot onboard`
     - Follow the interactive wizard.
